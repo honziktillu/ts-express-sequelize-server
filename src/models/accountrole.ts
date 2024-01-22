@@ -1,6 +1,6 @@
 module.exports = (sequelize: any, Sequelize: any) => {
-  const User = sequelize.define(
-    "user",
+  const AccountRole = sequelize.define(
+    "accountrole",
     {
       id: {
         type: Sequelize.UUID,
@@ -8,21 +8,9 @@ module.exports = (sequelize: any, Sequelize: any) => {
         primaryKey: true,
         allowNull: false,
       },
-      email: {
+      rolename: {
         type: Sequelize.STRING,
         allowNull: false,
-      },
-      username: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      password: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      verified: {
-        type: Sequelize.BOOLEAN,
-        defaultValue: 0,
       },
       createdAt: {
         type: Sequelize.DATE,
@@ -35,5 +23,5 @@ module.exports = (sequelize: any, Sequelize: any) => {
       timestamps: true,
     }
   );
-  return User;
+  return AccountRole;
 };

@@ -6,11 +6,12 @@ const User = db.users;
 export const getAllUsers = async (req: Request, res: Response) => {
   try {
     const users: any = await User.findAll();
-    if (!users || users.length === 0) return res.status(500).send({ message: "Users not found" });
+    if (!users || users.length === 0)
+      return res.status(500).send({ message: "Users not found" });
     return res.status(200).send({ message: "Users found", payload: users });
   } catch (err) {
     console.log(err);
-    res.status(500).end()
+    res.status(500).end();
   }
 };
 export const getUserById = async (req: Request, res: Response) => {
@@ -22,7 +23,7 @@ export const getUserById = async (req: Request, res: Response) => {
     return res.status(200).send({ message: "User found", payload: user });
   } catch (err) {
     console.log(err);
-    res.status(500).end()
+    res.status(500).end();
   }
 };
 export const createUser = async (req: Request, res: Response) => {
@@ -43,26 +44,28 @@ export const createUser = async (req: Request, res: Response) => {
     return res.status(200).send({ message: "User created" });
   } catch (err) {
     console.log(err);
-    res.status(500).end()
+    res.status(500).end();
   }
 };
 export const updateUser = async (req: Request, res: Response) => {
-    try {
-        const { id } = req.params;
-        const data = req.body;
-        if (!id || !data) return res.status(400).send({ message: "Missing details!" });
-        const user: any = await User.findOne({ where: { id: id } });
-        if (!user) return res.status(500).send({ message: "User not found" });
-        for (const ops of data) {
-            user[ops.propName] = ops.value;
-        }
-        const action = await user.save();
-        if (!action) return res.status(500).send({ message: "Something went wrong!" });
-        return res.status(200).send({ message: "User updated", payload: user });
-      } catch (err) {
-        console.log(err);
-        res.status(500).end()
-      }
+  try {
+    const { id } = req.params;
+    const data = req.body;
+    if (!id || !data)
+      return res.status(400).send({ message: "Missing details!" });
+    const user: any = await User.findOne({ where: { id: id } });
+    if (!user) return res.status(500).send({ message: "User not found" });
+    for (const ops of data) {
+      user[ops.propName] = ops.value;
+    }
+    const action = await user.save();
+    if (!action)
+      return res.status(500).send({ message: "Something went wrong!" });
+    return res.status(200).send({ message: "User updated", payload: user });
+  } catch (err) {
+    console.log(err);
+    res.status(500).end();
+  }
 };
 export const deleteUser = async (req: Request, res: Response) => {
   try {

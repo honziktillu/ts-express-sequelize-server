@@ -1,7 +1,12 @@
 module.exports = (sequelize: any, DataTypes: any) => {
-  const UserAccountRole = sequelize.define(
-    "useraccountrole",
+  const AccountRole = sequelize.define(
+    "accountrole",
     {
+      rolename: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        primaryKey: true,
+      },
       createdAt: {
         type: DataTypes.DATE,
       },
@@ -13,5 +18,5 @@ module.exports = (sequelize: any, DataTypes: any) => {
       timestamps: true,
     }
   );
-  return UserAccountRole;
+  return AccountRole;
 };

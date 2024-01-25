@@ -1,34 +1,34 @@
-module.exports = (sequelize: any, Sequelize: any) => {
+module.exports = (sequelize: any, DataTypes: any) => {
   const User = sequelize.define(
     "user",
     {
       id: {
-        type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
         allowNull: false,
       },
       email: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
       },
       username: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
       },
       password: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
       },
       verified: {
-        type: Sequelize.BOOLEAN,
+        type: DataTypes.BOOLEAN,
         defaultValue: 0,
       },
       createdAt: {
-        type: Sequelize.DATE,
+        type: DataTypes.DATE,
       },
       updatedAt: {
-        type: Sequelize.DATE,
+        type: DataTypes.DATE,
       },
     },
     {

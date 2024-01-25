@@ -10,7 +10,7 @@ app.use(express.json());
 const PORT = process.env.PORT || 3000;
 app.use(cors());
 
-db.sequelize.sync({ force: true, alter: true });
+db.sequelize.sync({ force: false, alter: false });
 
 app.use(`/api/v${process.env.API_VER}/user`, require("./routes/user"));
 

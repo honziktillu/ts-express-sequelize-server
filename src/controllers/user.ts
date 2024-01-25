@@ -20,7 +20,8 @@ export const getUserById = async (req: Request, res: Response) => {
     if (!id) return res.status(400).send({ message: "Missing details!" });
     const user: any = await User.findOne({ where: { id: id } });
     if (!user) return res.status(500).send({ message: "User not found" });
-    return res.status(200).send({ message: "User found", payload: user });
+    const userRoles = await user.getUserRole();
+    return res.status(200).send({ message: "User found", payload: {user, userRoles} });
   } catch (err) {
     console.log(err);
     res.status(500).end();
@@ -35,12 +36,14 @@ export const createUser = async (req: Request, res: Response) => {
     if (user) return res.status(400).send({ message: "User already exists" });
     const salt = await genSalt(10);
     const hashedString = await hash(password, salt);
-    await User.create({
+    const createdUser = await User.create({
       email: email,
       username: username,
       password: hashedString,
       verified: false,
     });
+    await createdUser.addUserRole("user");
+    await createdUser.addUserRole("admin");
     return res.status(200).send({ message: "User created" });
   } catch (err) {
     console.log(err);

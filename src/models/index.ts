@@ -1,5 +1,5 @@
 import { dbConfig } from "../config/db";
-import { Sequelize } from "sequelize";
+import { Sequelize, DataTypes } from "sequelize";
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
   port: dbConfig.PORT,
@@ -15,18 +15,23 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
 let db = {
   Sequelize,
   sequelize,
-  users: require("./user")(sequelize, Sequelize),
-  accountRoles: require("./accountrole")(sequelize, Sequelize),
-  userAccountRoles: require("./useraccountroles")(sequelize, Sequelize),
+  users: require("./user")(sequelize, DataTypes),
+  accountRoles: require("./accountroles")(sequelize, DataTypes),
+  userAccountRoles: require("./useraccountroles")(sequelize, DataTypes),
 };
 
+db.users.belongsToMany(db.accountRoles, { through: db.userAccountRoles, as: "userRole" });
+
+/*
 db.userAccountRoles.belongsTo(db.users, {
   foreignKey: "userid",
   onDelete: "cascade",
+  as: "User"
 });
 db.userAccountRoles.belongsTo(db.accountRoles, {
   foreignKey: "accountroleid",
   onDelete: "cascade",
-});
+  as: "AccountRole"
+});*/
 
 export default db;

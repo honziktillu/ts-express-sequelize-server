@@ -21,7 +21,9 @@ export const getUserById = async (req: Request, res: Response) => {
     const user: any = await User.findOne({ where: { id: id } });
     if (!user) return res.status(500).send({ message: "User not found" });
     const userRoles = await user.getUserRole();
-    return res.status(200).send({ message: "User found", payload: {user, userRoles} });
+    return res
+      .status(200)
+      .send({ message: "User found", payload: { user, userRoles } });
   } catch (err) {
     console.log(err);
     res.status(500).end();
@@ -43,7 +45,6 @@ export const createUser = async (req: Request, res: Response) => {
       verified: false,
     });
     await createdUser.addUserRole("user");
-    await createdUser.addUserRole("admin");
     return res.status(200).send({ message: "User created" });
   } catch (err) {
     console.log(err);
@@ -77,6 +78,22 @@ export const deleteUser = async (req: Request, res: Response) => {
     const user: any = await User.destroy({ where: { id: id } });
     if (!user) return res.status(500).send({ message: "User not found" });
     return res.status(200).send({ message: "User deleted" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).end();
+  }
+};
+
+export const addFriend = async (req: Request, res: Response) => {
+  try {
+    const { userid, friendid } = req.body;
+    if (!userid || !friendid)
+      return res.status(400).send({ message: "Missing details!" });
+    const user: any = await User.findOne({ where: { id: userid } });
+    if (!user) return res.status(500).send({ message: "User not found" });
+    await user.addFriend(friendid);
+    const friends = await user.getFriends();
+    return res.status(200).send({ message: "Friend added", friends });
   } catch (err) {
     console.log(err);
     res.status(500).end();

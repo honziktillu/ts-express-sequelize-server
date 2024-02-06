@@ -18,9 +18,11 @@ let db = {
   users: require("./user")(sequelize, DataTypes),
   accountRoles: require("./accountroles")(sequelize, DataTypes),
   userAccountRoles: require("./useraccountroles")(sequelize, DataTypes),
+  userfriends: require("./userfriends")(sequelize, DataTypes),
 };
 
 db.users.belongsToMany(db.accountRoles, { through: db.userAccountRoles, as: "userRole" });
+db.users.belongsToMany(db.users, { through: db.userfriends, as: "friends" });
 
 /*
 db.userAccountRoles.belongsTo(db.users, {
